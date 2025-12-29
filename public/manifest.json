@@ -1,0 +1,21 @@
+{
+  "name": "TESE - Premium Video Streaming",
+  "short_name": "TESE",
+  "description": "A paid video streaming platform with subscription and pay-per-view options",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#111827",
+  "theme_color": "#111827",
+  "icons": [
+    {
+      "src": "/Tese-Icon.png",
+      "sizes": "any",
+      "type": "image/png"
+    },
+    {
+      "src": "/Tese-Logo.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}
