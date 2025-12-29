@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { Search, Menu, X, User, LogOut } from "lucide-react";
 import { useRouter } from "next/navigation";
+import ThemeToggle from "./ThemeToggle";
 
 interface NavbarProps {
   user?: {
@@ -60,6 +61,9 @@ export default function Navbar({ user, onLogout }: NavbarProps) {
 
           {/* Search and User Actions */}
           <div className="flex items-center space-x-4">
+            {/* Theme Toggle */}
+            <ThemeToggle />
+
             {/* Search */}
             <div className="relative hidden md:block">
               <input
@@ -114,7 +118,7 @@ export default function Navbar({ user, onLogout }: NavbarProps) {
             {/* Mobile Menu Button */}
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="p-2 transition-colors md:hidden text-dark-muted hover:text-dark-text"
+              className="p-2 transition-colors text-dark-muted md:hidden hover:text-dark-text"
             >
               {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
             </button>

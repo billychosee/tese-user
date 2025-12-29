@@ -24,12 +24,12 @@ export default function Home() {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen p-4 bg-linear-to-br from-gray-900 via-gray-800 to-black">
+    <div className="flex items-center justify-center min-h-screen p-4 bg-gradient-to-br from-gray-900 via-gray-800 to-black">
       <div className="w-full max-w-md">
         {/* Header */}
         <div className="mb-8 text-center">
           <div className="flex items-center justify-center gap-4 mb-4">
-            <img src="/Tese-Light-Logo.png" alt="TESE Logo" className="w-20 h-16" />
+            <img src="/Tese-Logo.svg" alt="TESE Logo" className="w-16 h-16" />
           </div>
           <p className="text-gray-400">Premium Video Streaming Platform</p>
         </div>
@@ -92,7 +92,7 @@ export default function Home() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full px-4 py-3 font-semibold text-white transition-all duration-200 transform rounded-lg bg-linear-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full px-4 py-3 font-semibold text-white transition-all duration-200 transform rounded-lg bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {loading ? (
                 <div className="flex items-center justify-center">
