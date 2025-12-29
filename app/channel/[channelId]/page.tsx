@@ -197,7 +197,7 @@ export default function ChannelPage() {
 
       <main className="px-4 py-8 mx-auto max-w-7xl sm:px-6 lg:px-8">
         {/* Channel Header */}
-        <div className="relative mb-8 overflow-hidden bg-gradient-to-r from-blue-600 to-purple-600 rounded-2xl">
+        <div className="relative mb-8 overflow-hidden bg-linear-to-r from-blue-600 to-purple-600 rounded-2xl">
           <div className="channel-banner">
             <img
               src={channel.banner}
@@ -218,7 +218,7 @@ export default function ChannelPage() {
 
               <div className="flex-1">
                 <div className="mb-2">
-                  <img src="/Tese-Logo.svg" alt="Channel Logo" className="h-12 w-auto" />
+                  <img src="/Tese-Logo.svg" alt="Channel Logo" className="w-auto h-12" />
                 </div>
                 <p className="max-w-2xl mb-4 text-gray-200">
                   {channel.description}
@@ -234,7 +234,7 @@ export default function ChannelPage() {
                 </div>
               </div>
 
-              <div className="flex-shrink-0">
+              <div className="shrink-0">
                 <SubscriptionButton
                   isSubscribed={channel.isSubscribed}
                   price={channel.subscriptionPrice}

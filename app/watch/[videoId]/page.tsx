@@ -18,6 +18,7 @@ export default function WatchPage() {
   const [video, setVideo] = useState<Video | null>(null)
   const [relatedVideos, setRelatedVideos] = useState<Video[]>([])
   const [showPaywall, setShowPaywall] = useState(false)
+  const [isPlaying, setIsPlaying] = useState(false)
   const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
@@ -76,10 +77,8 @@ export default function WatchPage() {
 
   const handleAccessVideo = () => {
     if (video?.accessType === 'free') {
-      // Video is free, show player
-      console.log('Playing free video')
+      setIsPlaying(true)
     } else {
-      // Show paywall
       setShowPaywall(true)
     }
   }
@@ -139,41 +138,33 @@ export default function WatchPage() {
         <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
           {/* Video Player Section */}
           <div className="lg:col-span-2">
-            <div className="overflow-hidden bg-black rounded-lg shadow-2xl">
-              {/* Video Player Placeholder */}
-              <div className="video-player-container">
-                <div className="flex items-center justify-center bg-gray-800 video-player">
-                  <div className="text-center text-gray-400">
-                    <div className="flex items-center justify-center w-16 h-16 mx-auto mb-4 bg-blue-600 rounded-full">
-                      <svg className="w-8 h-8" fill="currentColor" viewBox="0 0 20 20">
-                        <path d="M6.3 2.841A1.5 1.5 0 004 4.11V15.89a1.5 1.5 0 002.3 1.269l9.344-5.89a1.5 1.5 0 000-2.538L6.3 2.84z"/>
+            <div className="overflow-hidden rounded-lg shadow-2xl bg-gray-800">
+              {/* Video Player Hero */}
+              <div className="relative bg-black">
+                <div
+                  className="w-full h-72 bg-center bg-cover sm:h-96"
+                  style={{ backgroundImage: `url('${video.img || video.thumbnail}')` }}
+                />
+
+                <div className="absolute inset-0 flex items-center justify-center">
+                  {!isPlaying ? (
+                    <button
+                      onClick={handleAccessVideo}
+                      className="flex items-center justify-center w-20 h-20 text-white bg-blue-600 rounded-full shadow-lg hover:scale-105"
+                    >
+                      <svg className="w-8 h-8 ml-1" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M6.3 2.841A1.5 1.5 0 004 4.11V15.89a1.5 1.5 0 002.3 1.269l9.344-5.89a1.5 1.5 0 000-2.538L6.3 2.84z" />
                       </svg>
-                    </div>
-                    <p className="text-sm">Video Player</p>
-                    <p className="mt-1 text-xs text-gray-500">Click play to start</p>
-                  </div>
-                  
-                  {/* Access Overlay */}
-                  {video.accessType !== 'free' && (
-                    <div className="access-overlay">
-                      <div className="text-center">
-                        <h3 className="mb-4 text-xl font-bold text-white">🔒 Video Locked</h3>
-                        <p className="mb-6 text-gray-300">
-                          This video requires payment to watch
-                        </p>
-                        <div className="space-y-4">
-                          <button
-                            onClick={handleAccessVideo}
-                            className="w-full px-6 py-3 font-semibold text-white transition-all duration-200 transform rounded-lg bg-gradient-to-r from-green-600 to-blue-600 hover:from-green-700 hover:to-blue-700 hover:scale-105"
-                          >
-                            Unlock Video - R{video.price || 25}
-                          </button>
-                          <p className="text-xs text-gray-400">One-time payment • Watch forever</p>
-                        </div>
-                      </div>
-                    </div>
+                    </button>
+                  ) : (
+                    <div className="w-full text-center text-white">Playing video (demo)</div>
                   )}
                 </div>
+
+                {/* Locked badge */}
+                {video.accessType !== 'free' && (
+                  <div className="absolute top-4 left-4 px-3 py-1 text-xs font-semibold text-white bg-red-600 rounded">Locked</div>
+                )}
               </div>
 
               {/* Video Info */}
@@ -186,11 +177,9 @@ export default function WatchPage() {
                   <span>•</span>
                   <span>{new Date(video.uploadDate).toLocaleDateString()}</span>
                 </div>
-                
+
                 <div className="flex items-center gap-2 mb-4">
-                  <span className={`category-badge ${video.category}`}>
-                    {video.category}
-                  </span>
+                  <span className={`px-2 py-1 text-xs font-medium rounded bg-gray-700 text-gray-200`}>{video.category}</span>
                   <span className="text-sm text-gray-400">
                     {Math.floor(parseInt(video.duration) / 60)}:{(parseInt(video.duration) % 60).toString().padStart(2, '0')}
                   </span>
@@ -205,14 +194,17 @@ export default function WatchPage() {
           <div className="lg:col-span-1">
             <div className="space-y-6">
               <h2 className="text-xl font-bold text-white">Related Videos</h2>
-              <div className="space-y-4">
+              <div className="grid gap-4">
                 {relatedVideos.map((relatedVideo) => (
-                  <VideoCard
-                    key={relatedVideo.id}
-                    video={relatedVideo}
-                    onClick={(v) => router.push(`/watch/${v.id}`)}
-                    showChannel={true}
-                  />
+                  <div key={relatedVideo.id} className="flex items-start gap-3">
+                    <img src={relatedVideo.thumbnail} alt={relatedVideo.title} className="w-24 h-14 rounded object-cover" />
+                    <div>
+                      <button onClick={() => router.push(`/watch/${relatedVideo.id}`)} className="text-sm font-medium text-gray-100 hover:underline">
+                        {relatedVideo.title}
+                      </button>
+                      <div className="text-xs text-gray-400">{relatedVideo.views.toLocaleString()} views</div>
+                    </div>
+                  </div>
                 ))}
               </div>
             </div>

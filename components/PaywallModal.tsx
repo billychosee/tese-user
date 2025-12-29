@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { X, Lock, CreditCard, DollarSign } from "lucide-react";
+import { useColorClasses } from "../lib/colorUtils";
 
 interface PaywallModalProps {
   isOpen: boolean;
@@ -26,6 +27,7 @@ export default function PaywallModal({
 }: PaywallModalProps) {
   const [isPurchasing, setIsPurchasing] = useState(false);
   const [isSubscribing, setIsSubscribing] = useState(false);
+  const { gradients, bg, border } = useColorClasses();
 
   const handlePurchase = async () => {
     setIsPurchasing(true);
@@ -54,32 +56,40 @@ export default function PaywallModal({
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black bg-opacity-75">
-      <div className="w-full max-w-md bg-gray-800 border border-gray-700 rounded-2xl">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-opacity-75 bg-zimbabwe-grey-charcoal">
+      <div
+        className={`w-full max-w-md bg-zimbabwe-black ${border.green} rounded-2xl`}
+      >
         {/* Header */}
-        <div className="flex items-center justify-between p-6 border-b border-gray-700">
+        <div
+          className={`flex items-center justify-between p-6 ${border.green}`}
+        >
           <div className="flex items-center gap-3">
             <img src="/Tese-Logo.svg" alt="TESE Logo" className="w-12 h-12" />
             <div>
-              <h2 className="text-xl font-bold text-white">Access Required</h2>
-              <p className="text-sm text-gray-400">Unlock this video</p>
+              <h2 className="text-xl font-bold text-zimbabwe-white">
+                Access Required
+              </h2>
+              <p className="text-sm text-zimbabwe-white/60">
+                Unlock this video
+              </p>
             </div>
           </div>
           <button
             onClick={onClose}
-            className="p-2 transition-colors rounded-lg hover:bg-gray-700"
+            className={`p-2 transition-colors rounded-lg hover:${bg.green}`}
           >
-            <X size={20} className="text-gray-400" />
+            <X size={20} className="text-zimbabwe-white/60" />
           </button>
         </div>
 
         {/* Content */}
         <div className="p-6 space-y-6">
           <div className="text-center">
-            <h3 className="mb-2 text-lg font-semibold text-white">
+            <h3 className="mb-2 text-lg font-semibold text-zimbabwe-white">
               {videoTitle}
             </h3>
-            <p className="text-gray-400">
+            <p className="text-zimbabwe-white/60">
               This video requires payment to watch
             </p>
           </div>
@@ -90,7 +100,7 @@ export default function PaywallModal({
             <button
               onClick={handlePurchase}
               disabled={isPurchasing}
-              className="flex items-center justify-between w-full p-4 text-white transition-all duration-200 transform rounded-lg bg-gradient-to-r from-green-600 to-blue-600 hover:from-green-700 hover:to-blue-700 hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
+              className={`flex items-center justify-between w-full p-4 text-zimbabwe-white transition-all duration-200 transform rounded-lg ${gradients.primary} hover:${gradients.primary} hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed`}
             >
               <div className="flex items-center gap-3">
                 <CreditCard size={24} />
@@ -112,16 +122,16 @@ export default function PaywallModal({
               <button
                 onClick={handleSubscribe}
                 disabled={isSubscribing}
-                className="flex items-center justify-between w-full p-4 text-white transition-all duration-200 transform bg-gray-700 border border-gray-600 rounded-lg hover:bg-gray-600 hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
+                className={`flex items-center justify-between w-full p-4 text-zimbabwe-white transition-all duration-200 transform ${bg.green} ${border.green} rounded-lg hover:${bg.green} hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed`}
               >
                 <div className="flex items-center gap-3">
-                  <div className="flex items-center justify-center w-8 h-8 rounded-full bg-gradient-to-r from-purple-600 to-pink-600">
+                  <div
+                    className={`flex items-center justify-center w-8 h-8 rounded-full ${gradients.secondary}`}
+                  >
                     <DollarSign size={16} />
                   </div>
                   <div className="text-left">
-                    <div className="font-semibold">
-                      Subscribe to Channel
-                    </div>
+                    <div className="font-semibold">Subscribe to Channel</div>
                     <div className="text-sm opacity-80">
                       Unlimited access to all videos
                     </div>
@@ -136,7 +146,9 @@ export default function PaywallModal({
           </div>
 
           {/* Footer */}
-          <div className="pt-4 text-xs text-center text-gray-500 border-t border-gray-700">
+          <div
+            className={`pt-4 text-xs text-center text-zimbabwe-white/60 ${border.green}`}
+          >
             <p>Secure payment processing • No hidden fees</p>
             <p className="mt-1">You can cancel subscriptions anytime</p>
           </div>

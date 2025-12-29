@@ -1,9 +1,17 @@
 "use client";
 
 import { useState } from "react";
-import { Search, Menu, X, User, LogOut } from "lucide-react";
+import {
+  FaSearch,
+  FaBars,
+  FaTimes,
+  FaUser,
+  FaSignOutAlt,
+} from "react-icons/fa";
 import { useRouter } from "next/navigation";
 import ThemeToggle from "./ThemeToggle";
+import { useColorClasses } from "../lib/colorUtils";
+import SideMenu from "./SideMenu";
 
 interface NavbarProps {
   user?: {
@@ -16,6 +24,7 @@ interface NavbarProps {
 export default function Navbar({ user, onLogout }: NavbarProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const router = useRouter();
+  const { primary, bg, border, gradients } = useColorClasses();
 
   const handleLogout = () => {
     localStorage.removeItem("user");
@@ -24,7 +33,7 @@ export default function Navbar({ user, onLogout }: NavbarProps) {
   };
 
   return (
-    <nav className="sticky top-0 z-50 transition-colors duration-200 border-b bg-dark-surface border-dark-border">
+    <nav className="sticky top-0 z-50 transition-colors duration-200 border-b bg-zimbabwe-grey-charcoal border-zimbabwe-white/10">
       <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
         <div className="flex justify-between h-16">
           {/* Logo and Brand */}
@@ -41,19 +50,19 @@ export default function Navbar({ user, onLogout }: NavbarProps) {
           <div className="items-center hidden space-x-8 md:flex">
             <button
               onClick={() => router.push("/dashboard")}
-              className="transition-colors text-dark-text hover:text-zimbabwe-accent"
+              className={`transition-colors text-zimbabwe-white hover:${primary.yellow}`}
             >
               Home
             </button>
             <button
               onClick={() => router.push("/dashboard")}
-              className="transition-colors text-dark-text hover:text-zimbabwe-accent"
+              className={`transition-colors text-zimbabwe-white hover:${primary.yellow}`}
             >
               Categories
             </button>
             <button
               onClick={() => router.push("/dashboard")}
-              className="transition-colors text-dark-text hover:text-zimbabwe-accent"
+              className={`transition-colors text-zimbabwe-white hover:${primary.yellow}`}
             >
               Trending
             </button>
@@ -69,10 +78,10 @@ export default function Navbar({ user, onLogout }: NavbarProps) {
               <input
                 type="text"
                 placeholder="Search videos..."
-                className="w-64 py-2 pl-10 pr-4 border rounded-lg text-dark-text placeholder-dark-muted bg-dark-card border-dark-border focus:ring-2 focus:ring-zimbabwe-accent focus:border-transparent"
+                className={`w-64 py-2 pl-10 pr-4 border rounded-lg text-zimbabwe-white placeholder-zimbabwe-white/60 bg-zimbabwe-white/10 ${border.green} focus:ring-2 focus:ring-zimbabwe-yellow focus:border-transparent`}
               />
-              <Search
-                className="absolute left-3 top-2.5 text-dark-muted"
+              <FaSearch
+                className={`absolute left-3 top-2.5 text-zimbabwe-white/60`}
                 size={20}
               />
             </div>
@@ -81,33 +90,33 @@ export default function Navbar({ user, onLogout }: NavbarProps) {
             <div className="items-center hidden space-x-4 md:flex">
               {user ? (
                 <>
-                  <span className="text-sm text-dark-muted">
+                  <span className="text-sm text-zimbabwe-white/60">
                     Welcome, {user.name}
                   </span>
                   <button
                     onClick={() => router.push("/dashboard")}
-                    className="p-2 transition-colors text-dark-muted hover:text-dark-text"
+                    className={`p-2 transition-colors text-zimbabwe-white/60 hover:text-zimbabwe-white`}
                   >
-                    <User size={20} />
+                    <FaUser size={20} />
                   </button>
                   <button
                     onClick={handleLogout}
-                    className="p-2 transition-colors text-dark-muted hover:text-dark-text"
+                    className={`p-2 transition-colors text-zimbabwe-white/60 hover:text-zimbabwe-white`}
                   >
-                    <LogOut size={20} />
+                    <FaSignOutAlt size={20} />
                   </button>
                 </>
               ) : (
                 <>
                   <button
                     onClick={() => router.push("/")}
-                    className="px-4 py-2 transition-colors text-dark-text hover:text-zimbabwe-accent"
+                    className={`px-4 py-2 transition-colors text-zimbabwe-white hover:${primary.yellow}`}
                   >
                     Sign In
                   </button>
                   <button
                     onClick={() => router.push("/")}
-                    className="px-4 py-2 text-white transition-colors rounded-lg bg-zimbabwe-accent-bg hover:bg-zimbabwe-secondary-bg"
+                    className={`px-4 py-2 transition-colors rounded-lg text-zimbabwe-white ${bg.red} hover:${bg.green}`}
                   >
                     Sign Up
                   </button>
@@ -118,72 +127,15 @@ export default function Navbar({ user, onLogout }: NavbarProps) {
             {/* Mobile Menu Button */}
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="p-2 transition-colors text-dark-muted md:hidden hover:text-dark-text"
+              className={`p-2 transition-colors text-zimbabwe-white/60 md:hidden hover:text-zimbabwe-white`}
             >
-              {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
+              {isMenuOpen ? <FaTimes size={24} /> : <FaBars size={24} />}
             </button>
           </div>
         </div>
 
-        {/* Mobile Menu */}
-        {isMenuOpen && (
-          <div className="py-4 transition-colors duration-200 border-t border-dark-border">
-            <div className="space-y-4">
-              <button
-                onClick={() => {
-                  router.push("/dashboard");
-                  setIsMenuOpen(false);
-                }}
-                className="block w-full text-left transition-colors text-dark-text hover:text-zimbabwe-accent"
-              >
-                Home
-              </button>
-              <button
-                onClick={() => {
-                  router.push("/dashboard");
-                  setIsMenuOpen(false);
-                }}
-                className="block w-full text-left transition-colors text-dark-text hover:text-zimbabwe-accent"
-              >
-                Categories
-              </button>
-              <button
-                onClick={() => {
-                  router.push("/dashboard");
-                  setIsMenuOpen(false);
-                }}
-                className="block w-full text-left transition-colors text-dark-text hover:text-zimbabwe-accent"
-              >
-                Trending
-              </button>
-
-              {user && (
-                <>
-                  <div className="pt-4 transition-colors duration-200 border-t border-dark-border">
-                    <span className="block mb-2 text-sm text-dark-muted">
-                      Account
-                    </span>
-                    <button
-                      onClick={() => {
-                        router.push("/dashboard");
-                        setIsMenuOpen(false);
-                      }}
-                      className="block w-full text-left transition-colors text-dark-text hover:text-zimbabwe-accent"
-                    >
-                      Profile
-                    </button>
-                    <button
-                      onClick={handleLogout}
-                      className="block w-full mt-2 text-left transition-colors text-dark-text hover:text-zimbabwe-accent"
-                    >
-                      Logout
-                    </button>
-                  </div>
-                </>
-              )}
-            </div>
-          </div>
-        )}
+        {/* Side menu (mobile & desktop) */}
+        <SideMenu isOpen={isMenuOpen} onClose={() => setIsMenuOpen(false)} />
       </div>
     </nav>
   );

@@ -77,9 +77,9 @@ export const authApi = {
     password: string
   ): Promise<ApiResponse<LoginResponse>> {
     try {
-      await delay(1000); // Simulate network delay
+      await delay(500); // Reduced delay for better testing
 
-      // Mock validation
+      // Mock validation - simplified for testing
       if (email === "demo@example.com" && password === "demo123") {
         const mockUser = {
           id: "user-1",
@@ -97,6 +97,11 @@ export const authApi = {
         return {
           success: true,
           data: response,
+        };
+      } else if (!email || !password) {
+        return {
+          success: false,
+          error: "Email and password are required",
         };
       } else {
         return {
@@ -162,6 +167,17 @@ export const authApi = {
       };
     }
   },
+
+  // Helper functions for testing
+  async validateCredentials(email: string, password: string): Promise<boolean> {
+    return email === "demo@example.com" && password === "demo123";
+  },
+
+  // Helper to clear auth state
+  clearAuth(): void {
+    localStorage.removeItem("auth_token");
+    localStorage.removeItem("user");
+  },
 };
 
 // Video API
@@ -176,9 +192,7 @@ export const videoApi = {
       // Mock trending videos
       const videos = Array.from({ length: 15 }, (_, i) => ({
         rating: (Math.random() * 5).toFixed(1),
-        img: `https://placehold.co/280x160/667eea/white?text=Trending+${
-          i + 1
-        }`,
+        img: `https://placehold.co/280x160/667eea/white?text=Trending+${i + 1}`,
         id: `trending-${i + 1}`,
         title: `Trending Video ${i + 1}`,
         description: `This is trending video ${i + 1} description.`,
@@ -322,9 +336,7 @@ export const videoApi = {
       // Mock search results
       const videos = Array.from({ length: 8 }, (_, i) => ({
         rating: (Math.random() * 5).toFixed(1),
-        img: `https://placehold.co/280x160/f093fb/white?text=Search+${
-          i + 1
-        }`,
+        img: `https://placehold.co/280x160/f093fb/white?text=Search+${i + 1}`,
         id: `search-${i + 1}`,
         title: `Search Result ${i + 1} for "${query}"`,
         description: `This is search result ${i + 1} description.`,
@@ -345,7 +357,7 @@ export const videoApi = {
             ? "free"
             : Math.random() > 0.5
             ? "pay-per-view"
-            : "subscriber-only" as VideoAccessType,
+            : ("subscriber-only" as VideoAccessType),
         price: Math.floor(Math.random() * 50) + 10,
         isFree: Math.random() > 0.5,
       }));
