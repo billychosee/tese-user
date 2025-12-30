@@ -138,11 +138,11 @@ export default function WatchPage() {
         <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
           {/* Video Player Section */}
           <div className="lg:col-span-2">
-            <div className="overflow-hidden rounded-lg shadow-2xl bg-gray-800">
+            <div className="overflow-hidden bg-gray-800 rounded-lg shadow-2xl">
               {/* Video Player Hero */}
               <div className="relative bg-black">
                 <div
-                  className="w-full h-72 bg-center bg-cover sm:h-96"
+                  className="w-full bg-center bg-cover h-72 sm:h-96"
                   style={{ backgroundImage: `url('${video.img || video.thumbnail}')` }}
                 />
 
@@ -163,14 +163,14 @@ export default function WatchPage() {
 
                 {/* Locked badge */}
                 {video.accessType !== 'free' && (
-                  <div className="absolute top-4 left-4 px-3 py-1 text-xs font-semibold text-white bg-red-600 rounded">Locked</div>
+                  <div className="absolute px-3 py-1 text-xs font-semibold text-white bg-red-600 rounded top-4 left-4">Locked</div>
                 )}
               </div>
 
               {/* Video Info */}
               <div className="p-6">
                 <h1 className="mb-2 text-2xl font-bold text-white">{video.title}</h1>
-                <div className="flex items-center gap-4 mb-4 text-sm text-gray-400">
+                <div className="flex items-center gap-4 mb-4 text-sm text-white">
                   <span>{video.channelId}</span>
                   <span>•</span>
                   <span>{video.views.toLocaleString()} views</span>
@@ -179,30 +179,135 @@ export default function WatchPage() {
                 </div>
 
                 <div className="flex items-center gap-2 mb-4">
-                  <span className={`px-2 py-1 text-xs font-medium rounded bg-gray-700 text-gray-200`}>{video.category}</span>
-                  <span className="text-sm text-gray-400">
+                  <span className={`px-2 py-1 text-xs font-medium rounded bg-gray-700 text-white`}>{video.category}</span>
+                  <span className="text-sm text-white">
                     {Math.floor(parseInt(video.duration) / 60)}:{(parseInt(video.duration) % 60).toString().padStart(2, '0')}
                   </span>
                 </div>
 
-                <p className="leading-relaxed text-gray-300">{video.description}</p>
+                <p className="leading-relaxed text-white">{video.description}</p>
+              </div>
+            </div>
+
+            {/* Playlist and Comments Section */}
+            <div className="mt-8">
+              {/* View Playlist Button */}
+              <div className="mb-6">
+                <button
+                  onClick={() => router.push('/playlist/sample-playlist')}
+                  className="px-6 py-3 font-bold text-white transition-all bg-red-600 rounded-xl hover:scale-105"
+                >
+                  View Full Playlist
+                </button>
+              </div>
+
+              <h3 className="mb-4 text-xl font-bold text-white">Comments</h3>
+              <div className="space-y-4">
+                {/* Comment Form */}
+                <div className="p-4 bg-gray-800 rounded-lg">
+                  <textarea
+                    placeholder="Add a comment..."
+                    className="w-full p-3 text-white bg-gray-700 border border-gray-600 rounded-lg resize-none focus:outline-none focus:border-red-600"
+                    rows={3}
+                  />
+                  <div className="flex justify-end mt-2">
+                    <button className="px-4 py-2 text-white transition-colors bg-red-600 rounded-lg hover:bg-red-700">
+                      Post Comment
+                    </button>
+                  </div>
+                </div>
+
+                {/* Sample Comments */}
+                <div className="space-y-3">
+                  <div className="p-4 bg-gray-800 rounded-lg">
+                    <div className="flex items-center gap-3 mb-2">
+                      <div className="flex items-center justify-center w-8 h-8 text-sm font-bold text-white bg-red-600 rounded-full">U</div>
+                      <div>
+                        <span className="font-semibold text-white">User123</span>
+                        <span className="ml-2 text-sm text-gray-400">2 hours ago</span>
+                      </div>
+                    </div>
+                    <p className="text-gray-300">Great video! Really enjoyed the content and the editing was top-notch.</p>
+                    <div className="flex gap-4 mt-2 text-sm text-gray-400">
+                      <button className="hover:text-white">Like</button>
+                      <button className="hover:text-white">Reply</button>
+                    </div>
+                  </div>
+
+                  <div className="p-4 bg-gray-800 rounded-lg">
+                    <div className="flex items-center gap-3 mb-2">
+                      <div className="flex items-center justify-center w-8 h-8 text-sm font-bold text-white bg-blue-600 rounded-full">A</div>
+                      <div>
+                        <span className="font-semibold text-white">Alex Johnson</span>
+                        <span className="ml-2 text-sm text-gray-400">1 day ago</span>
+                      </div>
+                    </div>
+                    <p className="text-gray-300">This is exactly what I was looking for. Can't wait for the next episode!</p>
+                    <div className="flex gap-4 mt-2 text-sm text-gray-400">
+                      <button className="hover:text-white">Like</button>
+                      <button className="hover:text-white">Reply</button>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
 
-          {/* Sidebar */}
+          {/* Sidebar - Related Videos with Downloads UI Style */}
           <div className="lg:col-span-1">
             <div className="space-y-6">
               <h2 className="text-xl font-bold text-white">Related Videos</h2>
+              
+              {/* Related Videos using Downloads UI Style */}
               <div className="grid gap-4">
                 {relatedVideos.map((relatedVideo) => (
-                  <div key={relatedVideo.id} className="flex items-start gap-3">
-                    <img src={relatedVideo.thumbnail} alt={relatedVideo.title} className="w-24 h-14 rounded object-cover" />
-                    <div>
-                      <button onClick={() => router.push(`/watch/${relatedVideo.id}`)} className="text-sm font-medium text-gray-100 hover:underline">
-                        {relatedVideo.title}
+                  <div key={relatedVideo.id} className="cursor-pointer group">
+                    <div className="relative mb-3 overflow-hidden transition-all duration-500 border border-gray-700 shadow-xl aspect-video rounded-2xl">
+                      <img
+                        src={relatedVideo.thumbnail}
+                        className="object-cover w-full h-full transition-transform duration-700 group-hover:scale-110"
+                      />
+                      <div className="absolute inset-0 flex items-center justify-center transition-opacity duration-300 opacity-0 group-hover:opacity-100 bg-black/40">
+                        <div className="flex items-center justify-center w-12 h-12 text-white border rounded-full shadow-2xl bg-red-600/80 backdrop-blur-xl border-white/40">
+                          <svg className="w-4 h-4 ml-0.5" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M6.3 2.841A1.5 1.5 0 004 4.11V15.89a1.5 1.5 0 002.3 1.269l9.344-5.89a1.5 1.5 0 000-2.538L6.3 2.84z" />
+                          </svg>
+                        </div>
+                      </div>
+                      <div className="absolute bottom-2 right-2 bg-black/60 px-2 py-1 rounded-lg text-[10px] font-bold text-white">
+                        {Math.floor(parseInt(relatedVideo.duration) / 60)}:{(parseInt(relatedVideo.duration) % 60).toString().padStart(2, '0')}
+                      </div>
+                      {!relatedVideo.isFree && (
+                        <div className="absolute top-2 left-2 bg-red-600 text-white text-[9px] font-black px-2 py-1 rounded-md shadow-lg">
+                          {relatedVideo.accessType === "subscriber-only"
+                            ? "SUBSCRIBER"
+                            : "PREMIUM"}
+                        </div>
+                      )}
+                      {relatedVideo.isFree && (
+                        <div className="absolute top-2 left-2 bg-green-600 text-white text-[9px] font-black px-2 py-1 rounded-md shadow-lg">
+                          FREE
+                        </div>
+                      )}
+                    </div>
+                    <h4 className="mb-1 text-sm font-bold text-white truncate">
+                      {relatedVideo.title}
+                    </h4>
+                    <div className="flex items-center justify-between">
+                      <p className="text-[10px] opacity-60 font-medium text-gray-400">
+                        {relatedVideo.views.toLocaleString()} views
+                      </p>
+                      <p className="text-[10px] font-bold text-yellow-500">
+                        ★ {relatedVideo.rating}
+                      </p>
+                    </div>
+                    <div className="flex gap-2 mt-3">
+                      <button
+                        onClick={() => router.push(`/watch/${relatedVideo.id}`)}
+                        className="flex-1 px-3 py-2 text-sm font-bold text-white transition-all bg-red-600 rounded-lg hover:scale-105"
+                      >
+                        Watch Now
                       </button>
-                      <div className="text-xs text-gray-400">{relatedVideo.views.toLocaleString()} views</div>
                     </div>
                   </div>
                 ))}

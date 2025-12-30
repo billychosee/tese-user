@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useTheme } from "./ThemeProvider";
 import { X, Lock, CreditCard, DollarSign } from "lucide-react";
 import { useColorClasses } from "../lib/colorUtils";
 
@@ -28,6 +29,7 @@ export default function PaywallModal({
   const [isPurchasing, setIsPurchasing] = useState(false);
   const [isSubscribing, setIsSubscribing] = useState(false);
   const { gradients, bg, border } = useColorClasses();
+  const { theme } = useTheme();
 
   const handlePurchase = async () => {
     setIsPurchasing(true);
@@ -65,7 +67,15 @@ export default function PaywallModal({
           className={`flex items-center justify-between p-6 ${border.green}`}
         >
           <div className="flex items-center gap-3">
-            <img src="/Tese-Logo.svg" alt="TESE Logo" className="w-12 h-12" />
+            <img
+              src={
+                theme === "dark"
+                  ? "/Tese-Dark-logo.png"
+                  : "/Tese-Light-Logo.png"
+              }
+              alt="TESE Logo"
+              className="w-16 h-16"
+            />
             <div>
               <h2 className="text-xl font-bold text-zimbabwe-white">
                 Access Required

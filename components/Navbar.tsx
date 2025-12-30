@@ -10,6 +10,7 @@ import {
 } from "react-icons/fa";
 import { useRouter } from "next/navigation";
 import ThemeToggle from "./ThemeToggle";
+import { useTheme } from "./ThemeProvider";
 import { useColorClasses } from "../lib/colorUtils";
 import SideMenu from "./SideMenu";
 
@@ -25,6 +26,7 @@ export default function Navbar({ user, onLogout }: NavbarProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const router = useRouter();
   const { primary, bg, border, gradients } = useColorClasses();
+  const { theme } = useTheme();
 
   const handleLogout = () => {
     localStorage.removeItem("user");
@@ -42,7 +44,15 @@ export default function Navbar({ user, onLogout }: NavbarProps) {
               onClick={() => router.push("/dashboard")}
               className="flex items-center space-x-3"
             >
-              <img src="/Tese-Logo.svg" alt="TESE Logo" className="w-8 h-8" />
+              <img
+                src={
+                  theme === "dark"
+                    ? "/Tese-Dark-logo.png"
+                    : "/Tese-Light-Logo.png"
+                }
+                alt="TESE Logo"
+                className="w-12 h-12"
+              />
             </button>
           </div>
 
@@ -135,7 +145,11 @@ export default function Navbar({ user, onLogout }: NavbarProps) {
         </div>
 
         {/* Side menu (mobile & desktop) */}
-        <SideMenu isOpen={isMenuOpen} onClose={() => setIsMenuOpen(false)} />
+        <SideMenu
+          isOpen={isMenuOpen}
+          onClose={() => setIsMenuOpen(false)}
+          isDarkMode={theme === "dark"}
+        />
       </div>
     </nav>
   );
